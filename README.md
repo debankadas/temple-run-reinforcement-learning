@@ -642,7 +642,7 @@ This project is for educational purposes only. Temple Run is a trademark of Iman
 - **20K Steps**: Matched expert human (85.9% vs 70-80%)
 - **50K Steps**: Exceeded expert human (94.1% vs 70-80%)
 
-### Comparison with Human Players
+### Comparison with Human Players(estimated)
 
 ```
 Metric              | Trained AI  | Beginner Human | Expert Human
