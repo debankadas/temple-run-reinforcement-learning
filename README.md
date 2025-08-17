@@ -1,29 +1,34 @@
-# Temple Run AI - Training Guide
+# Temple Run AI
 
 ## 🎮 Overview
+
 This project implements an advanced AI system that learns to play Temple Run autonomously using state-of-the-art machine learning techniques. The system combines computer vision, reinforcement learning, and real-time decision making to navigate the endless runner game.
 
 ### 🏗️ Architecture Components
 
 **1. Vision System (ViT-based Classifier)**
+
 - **Model**: Vision Transformer (ViT) from Google (`vit-base-patch16-224`)
 - **Purpose**: Real-time game state detection (alive/dead classification)
 - **Accuracy**: Achieves 95%+ accuracy in distinguishing game states
 - **Training**: Transfer learning with fine-tuning on custom Temple Run dataset
 
 **2. Reinforcement Learning Agent (PPO)**
+
 - **Algorithm**: Proximal Policy Optimization (PPO) - more stable than DQN for this task
 - **Framework**: Stable-Baselines3 with CNN policy
 - **Action Space**: 7 discrete actions (left, right, jump, slide, tilt_left, tilt_right, no-op)
 - **Observation Space**: 256x256x3 RGB images (high-resolution for better feature detection)
 
 **Why PPO over DQN?**
+
 - **Continuous Learning**: PPO handles the continuous nature of Temple Run better
 - **Sample Efficiency**: Requires fewer training samples to achieve good performance
 - **Stability**: Less prone to catastrophic forgetting during training
 - **Action Probability**: Provides probability distribution over actions, useful for exploration
 
 **3. Advanced Reward System**
+
 - **Context-aware rewards**: Different rewards for necessary vs unnecessary actions
 - **Obstacle detection**: Using OpenCV edge detection in specific screen regions
 - **Coin detection**: HSV color space analysis for gold coin identification
@@ -33,12 +38,14 @@ This project implements an advanced AI system that learns to play Temple Run aut
 ### 📊 Performance Metrics
 
 **Training Progress:**
+
 - **Initial Performance**: ~5-10 seconds survival time
 - **After 10,000 steps**: ~30-45 seconds survival time
 - **After 50,000 steps**: 1-2 minutes consistent survival
 - **Best Achievement**: 3+ minutes continuous gameplay
 
 **Key Improvements Over Time:**
+
 - **Obstacle Avoidance**: 35% → 85% success rate
 - **Coin Collection**: 20% → 65% efficiency
 - **Decision Speed**: 500ms → 50ms per action
@@ -47,12 +54,14 @@ This project implements an advanced AI system that learns to play Temple Run aut
 ## 📥 Installation
 
 ### 1. Clone the Repository
+
 ```bash
 git clone https://github.com/your-username/temple-run-ai.git
 cd temple-run-ai
 ```
 
 ### 2. Install Dependencies
+
 ```bash
 pip install -r requirements.txt
 ```
@@ -60,6 +69,7 @@ pip install -r requirements.txt
 ## 📋 Prerequisites
 
 ### ADB Setup (Recommended Method)
+
 ```bash
 # Install ADB (Android Debug Bridge)
 # Windows: Download from Android SDK Platform Tools
@@ -74,12 +84,14 @@ adb --version
 ```
 
 ### Required Files
+
 - `requirements.txt` - Python dependencies
 - `train.py` - Main training script
 - `reward_system.py` - Advanced reward calculation system
 - `models/` - Directory for saving checkpoints (created automatically)
 
 ### System Requirements
+
 - Python 3.8+
 - CUDA-capable GPU (recommended for faster training)
 - Android device with USB debugging enabled OR Android emulator
@@ -95,7 +107,7 @@ All settings are in **`config.yaml`** - edit this file to configure your trainin
 ```yaml
 # config.yaml - Change gpu_preset for your hardware:
 
-gpu_preset: "mid-range"  # Options: budget, mid-range, high-end, enthusiast
+gpu_preset: "mid-range" # Options: budget, mid-range, high-end, enthusiast
 
 # Available presets:
 # budget: 128x128, 8 batch (GTX 1660, RTX 2060)
@@ -110,20 +122,23 @@ gpu_preset: "mid-range"  # Options: budget, mid-range, high-end, enthusiast
 # Option 1: Use optimized parameters (RECOMMENDED)
 use_optimized_params: true   # Uses best_params.json if it exists
 
-# Option 2: Use manual parameters  
+# Option 2: Use manual parameters
 use_optimized_params: false  # Uses your custom values below
 ```
 
 **What this means:**
 
 **When `use_optimized_params: true` (RECOMMENDED):**
+
 - ✅ If `best_params.json` exists → Uses optimized hyperparameters from previous training
 - ⚠️ If `best_params.json` missing → Falls back to manual values from YAML (new training)
 
 **When `use_optimized_params: false`:**
+
 - 🎛️ Always uses manual hyperparameters from YAML (good for experimentation)
 
 **For fresh start:**
+
 - 🗑️ Delete `best_params.json` file to force new hyperparameter optimization
 
 ### 📊 Step 3: Customize Training (Optional)
@@ -131,14 +146,14 @@ use_optimized_params: false  # Uses your custom values below
 ```yaml
 # Training Duration
 training:
-  total_timesteps: 50000      # How long to train
-  checkpoint_interval: 100    # Save frequency
+  total_timesteps: 50000 # How long to train
+  checkpoint_interval: 100 # Save frequency
 
 # PPO Hyperparameters (used for new training or when use_optimized_params = false)
 ppo:
-  learning_rate: 0.0003       # Learning rate
-  gamma: 0.99                 # Discount factor
-  ent_coef: 0.01              # Exploration coefficient
+  learning_rate: 0.0003 # Learning rate
+  gamma: 0.99 # Discount factor
+  ent_coef: 0.01 # Exploration coefficient
 ```
 
 ### 🚀 Run Training
@@ -148,6 +163,7 @@ python train.py
 ```
 
 The system will automatically:
+
 - Load your GPU configuration
 - Use optimized hyperparameters (if available)
 - Resume from latest checkpoint
@@ -155,17 +171,17 @@ The system will automatically:
 
 ### 🔧 Advanced Configuration
 
-| Setting | Default | Description |
-|---------|---------|-------------|
-| **RESOLUTION** | 256 | Model input size (128/256/384/512) |
-| **CLASSIFIER_BATCH_SIZE** | 16 | Batch size for vision model |
-| **PPO_BATCH_SIZE** | 64 | Batch size for RL training |
-| **LEARNING_RATE** | 0.0003 | PPO learning rate |
-| **GAMMA** | 0.99 | Discount factor |
-| **ENT_COEF** | 0.01 | Entropy coefficient |
-| **CLIP_RANGE** | 0.2 | PPO clipping range |
-| **N_STEPS** | 2048 | Steps per rollout |
-| **USE_FP16** | False | Mixed precision training |
+| Setting                   | Default | Description                        |
+| ------------------------- | ------- | ---------------------------------- |
+| **RESOLUTION**            | 256     | Model input size (128/256/384/512) |
+| **CLASSIFIER_BATCH_SIZE** | 16      | Batch size for vision model        |
+| **PPO_BATCH_SIZE**        | 64      | Batch size for RL training         |
+| **LEARNING_RATE**         | 0.0003  | PPO learning rate                  |
+| **GAMMA**                 | 0.99    | Discount factor                    |
+| **ENT_COEF**              | 0.01    | Entropy coefficient                |
+| **CLIP_RANGE**            | 0.2     | PPO clipping range                 |
+| **N_STEPS**               | 2048    | Steps per rollout                  |
+| **USE_FP16**              | False   | Mixed precision training           |
 
 ### 🎮 GPU/CPU Selection
 
@@ -185,25 +201,30 @@ set CUDA_VISIBLE_DEVICES=-1 && python train.py
 To optimize for your specific GPU:
 
 **Current Configuration:**
+
 - **Capture Resolution**: 256x256 pixels (line 265 in `env.py`)
 - **Processing**: Full device screen → resize to 256x256 for RL model
 - **Format**: RGB channels-first (3, 256, 256)
 
 **For Budget GPUs (RTX 2060/3060):**
+
 - Reduce to 128x128 in line 265: `cv2.resize(rgb, (128, 128))`
 - Update observation_space to `shape=(3, 128, 128)` on line 29
 - Edit classifier training: `per_device_train_batch_size=8`
 
 **For Mid-range GPUs (RTX 3070/4060):**
+
 - Current 256x256 resolution works well for mid-range GPUs
 - Edit classifier training: `per_device_train_batch_size=16`
 
 **For High-end GPUs (RTX 3080+/4080+):**
+
 - Current 256x256 is optimal for high-end GPUs
 - Can handle larger batch sizes for faster training
 - Edit classifier training: `per_device_train_batch_size=32`
 
 **For Enthusiast GPUs (RTX 4090/A100):**
+
 - Can increase to 384x384 or 512x512 for maximum detail
 - Significantly better obstacle and coin detection at higher resolutions
 - Edit classifier training: `per_device_train_batch_size=64`
@@ -211,6 +232,7 @@ To optimize for your specific GPU:
 ## 🔄 Resume Training from Checkpoint
 
 ### Automatic Resume (Built-in)
+
 ```bash
 # Training automatically resumes from the latest checkpoint
 python train.py
@@ -222,6 +244,7 @@ python train.py
 ```
 
 ### Manual Resume
+
 ```python
 # In your Python script or notebook
 from stable_baselines3 import PPO
@@ -255,6 +278,7 @@ print(f"Resuming from timestep: {ppo_model.num_timesteps}")
 ## 📁 Checkpoint Structure
 
 Checkpoints are saved automatically in `training_output/` directory:
+
 ```
 training_output/
 ├── ppo_checkpoints/
@@ -269,6 +293,7 @@ training_output/
 ```
 
 ### PPO Checkpoint Contents (.zip files)
+
 - **Model weights**: CNN policy network parameters
 - **Optimizer state**: Adam optimizer state
 - **Training statistics**: Episode rewards, timesteps
@@ -276,6 +301,7 @@ training_output/
 - **Replay buffer**: Not used in PPO (on-policy algorithm)
 
 ### Key Differences from DQN
+
 - **No epsilon**: PPO uses stochastic policy, not epsilon-greedy
 - **No target network**: PPO uses advantage estimation instead
 - **No replay memory**: PPO is on-policy, doesn't store old experiences
@@ -284,6 +310,7 @@ training_output/
 ## 📊 Monitor Training Progress
 
 ### Real-time Monitoring
+
 ```bash
 # Watch training logs
 tail -f training.log
@@ -293,6 +320,7 @@ tensorboard --logdir=runs/
 ```
 
 ### Check Training Status
+
 ```python
 # Load and inspect checkpoint
 import torch
@@ -320,11 +348,13 @@ python templerun_data_collector.py
 ```
 
 **Controls:**
+
 - Press `A` - Capture "alive" frame (character running)
-- Press `D` - Capture "dead" frame (character crashed)  
+- Press `D` - Capture "dead" frame (character crashed)
 - Press `ESC` - Stop and exit
 
 **Tips:**
+
 - Collect 200+ alive images and 100+ dead images
 - Include diverse scenarios (different environments, lighting)
 - Capture clear, unblurred frames during gameplay
@@ -336,6 +366,7 @@ See `data_collector/README.md` for detailed instructions.
 ### Common Issues
 
 **1. "ADB device not found" Error**
+
 ```bash
 # Check if device is connected
 adb devices
@@ -347,18 +378,20 @@ adb devices
 ```
 
 **2. "CUDA out of memory" Error**
+
 ```yaml
 # Edit config.yaml - switch to a lower GPU preset:
-gpu_preset: "budget"  # Use budget instead of mid-range/high-end
+gpu_preset: "budget" # Use budget instead of mid-range/high-end
 
 # Or manually reduce batch sizes:
 gpu_presets:
   custom:
-    classifier_batch_size: 8    # Reduce from 16
-    ppo_batch_size: 32          # Reduce from 64
+    classifier_batch_size: 8 # Reduce from 16
+    ppo_batch_size: 32 # Reduce from 64
 ```
 
 **3. "FileNotFoundError: config.yaml"**
+
 ```bash
 # Make sure you're running from the correct directory
 cd temple_run
@@ -369,16 +402,17 @@ ls temple_run/config.yaml
 ```
 
 **4. "No module named 'yaml'"**
+
 ```bash
 # Install missing dependency
 pip install pyyaml
 ```
 
 **5. Slow Training / Low FPS**
+
 ```yaml
 # Edit config.yaml - use budget GPU preset:
 gpu_preset: "budget"
-
 # This automatically sets:
 # - resolution: 128 (instead of 256)
 # - classifier_batch_size: 8 (instead of 16)
@@ -387,6 +421,7 @@ gpu_preset: "budget"
 ```
 
 **6. Training Crashes / Instability**
+
 ```bash
 # Check available checkpoints
 ls temple_run/training_output/ppo_checkpoints/
@@ -399,9 +434,10 @@ rm best_params.json
 ```
 
 **7. Poor AI Performance**
+
 ```yaml
 # For better performance on powerful GPUs:
-gpu_preset: "high-end"  # or "enthusiast"
+gpu_preset: "high-end" # or "enthusiast"
 
 # This automatically sets higher resolution and batch sizes
 # for better visual processing and training stability
@@ -414,6 +450,7 @@ gpu_preset: "high-end"  # or "enthusiast"
 The training process automatically generates performance metrics that can be visualized:
 
 **1. TensorBoard Integration**
+
 ```bash
 # View real-time training graphs
 tensorboard --logdir=./templerun_tensorboard/
@@ -426,6 +463,7 @@ tensorboard --logdir=./templerun_tensorboard/
 ```
 
 **2. Training Metrics Tracked**
+
 ```python
 # Automatically logged in training_output/episode_log.json
 {
@@ -440,6 +478,7 @@ tensorboard --logdir=./templerun_tensorboard/
 **3. Actual Training Performance (Real Data)**
 
 ### 📊 Scale & Performance Achieved:
+
 - 🚀 **12.4B pixels analyzed** - 4.6M frames at 256x256 resolution
 - ⚡ **8x faster than human reaction time** - 33ms vs 250ms human reflexes
 - 🧠 **196K+ state space** - Each frame: 256×256×3 RGB (196,608 dimensions)
@@ -449,6 +488,7 @@ tensorboard --logdir=./templerun_tensorboard/
 - 📊 **10.1 actions per episode** progression
 
 ### 🎯 Evaluation Metrics (Step 3,693 - Real Data):
+
 - **Mean Episode Reward**: 257.37 (up from negative scores early training)
 - **Episode Length Range**: 1-10 steps (3, 1, 10, 8, 1 steps per episode)
 - **Average Episode Length**: 4.6 steps
@@ -457,6 +497,7 @@ tensorboard --logdir=./templerun_tensorboard/
 - **Consistency**: Variable performance indicating active learning phase
 
 ### Training Performance Metrics:
+
 ```
 Steps    Episodes  Survival Rate  Avg Actions  Detection Acc
 -------------------------------------------------------------
@@ -478,8 +519,8 @@ Steps    Episodes  Survival Rate  Avg Actions  Detection Acc
 50000    5980      94.1%         10.1         98.9%
 ```
 
-
 ### Training Milestones & Evaluation Data:
+
 ```
 📈 Step 1,000: Basic obstacle avoidance (22.4% survival)
 🎮 Step 2,000: Strategic decision-making (38.5% survival)
@@ -493,11 +534,11 @@ Steps    Episodes  Survival Rate  Avg Actions  Detection Acc
 ⭐ Step 50,000: Mastery achieved (94.1% survival)
 ```
 
-
 ## 🎮 Trained Model Output
 
 After training completes, models are saved to:
-- `training_output/best_model/best_model.zip` - Best performing model  
+
+- `training_output/best_model/best_model.zip` - Best performing model
 - `training_output/templerun_agent.zip` - Final model
 - `training_output/ppo_checkpoints/` - Checkpoint files (e.g. `ppo_step_50000.zip`)
 
@@ -506,6 +547,7 @@ After training completes, models are saved to:
 ### Evaluation Metrics
 
 Monitor your trained agent's performance:
+
 - **Average Episode Length**: Target > 60 seconds
 - **Maximum Score Achieved**: Track personal best
 - **Action Efficiency**: Minimize unnecessary movements
@@ -514,38 +556,44 @@ Monitor your trained agent's performance:
 ## 📈 Performance Tips
 
 1. **Optimal Training Setup by GPU Tier**
-   
+
    **Budget GPUs (GTX 1660, RTX 2060):**
+
    - RL Model Input: 128x128
    - Classifier batch size: 8
    - PPO batch size: 32
    - Frame skip: 2
-   
+
    **Mid-range GPUs (RTX 3070, RTX 4060):**
+
    - RL Model Input: 256x256 (current default)
    - Classifier batch size: 16
    - PPO batch size: 64
    - Frame skip: 1
-   
+
    **High-end GPUs (RTX 3080+, RTX 4080+):**
+
    - RL Model Input: 256x256 or 384x384
    - Classifier batch size: 32
    - PPO batch size: 128
    - Enable mixed precision (fp16)
-   
+
    **Enthusiast GPUs (RTX 4090, A100, H100):**
+
    - RL Model Input: 384x384 or 512x512
    - Classifier batch size: 64
    - PPO batch size: 256
    - Multi-GPU support via DataParallel
-   
+
    **General Tips:**
+
    - Always capture from device at native resolution
    - Resize for model input to manage memory
    - Monitor VRAM usage (should stay under 80%)
    - Use gradient accumulation for larger effective batch sizes
 
 2. **Hyperparameter Tuning**
+
    - Start with high epsilon (1.0) for exploration
    - Gradually decrease learning rate if training becomes unstable
    - Increase batch size for more stable gradients
@@ -559,6 +607,7 @@ Monitor your trained agent's performance:
 ## 📝 Configuration Files
 
 ### config.json
+
 ```json
 {
   "training": {
@@ -607,6 +656,7 @@ This project is for educational purposes only. Temple Run is a trademark of Iman
 ### Final Agent Performance (50,000 Steps)
 
 **Quantitative Results Achieved:**
+
 - **Mean Episode Reward**: 257.37 (evaluation at step 3,693)
 - **Best Episode Performance**: 600.1 reward (10-step episode)
 - **Episode Length**: 4.6 steps average (range: 1-10 steps)
@@ -616,6 +666,7 @@ This project is for educational purposes only. Temple Run is a trademark of Iman
 - **Training Completed**: 50,000 steps (100% complete)
 
 **Learning Progression:**
+
 - ✅ Step 100-1000: Learned basic controls (8.3% → 22.4% survival)
 - ✅ Step 1000-5000: Obstacle mastery (22.4% → 58.7%)
 - ✅ Step 5000-10000: Strategic optimization (58.7% → 74.3%)
@@ -623,11 +674,13 @@ This project is for educational purposes only. Temple Run is a trademark of Iman
 - ✅ Step 20000-50000: Expert performance (85.9% → 94.1%)
 
 ### Performance Benchmarks Achieved:
+
 - **10K Steps**: Surpassed beginner human (74.3% vs 20-30%)
 - **20K Steps**: Matched expert human (85.9% vs 70-80%)
 - **50K Steps**: Exceeded expert human (94.1% vs 70-80%)
 
 ### Comparison with Human Players
+
 ```
 Metric              | Trained AI  | Beginner Human | Expert Human
 --------------------|-------------|----------------|-------------
