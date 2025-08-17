@@ -604,43 +604,6 @@ Monitor your trained agent's performance:
    - Backup important checkpoints before experimenting
    - Use descriptive names for experimental checkpoints
 
-## 📝 Configuration Files
-
-### config.json
-
-```json
-{
-  "training": {
-    "episodes": 1000,
-    "max_steps_per_episode": 10000,
-    "checkpoint_interval": 50,
-    "save_best_only": false
-  },
-  "model": {
-    "hidden_layers": [512, 256, 128],
-    "activation": "relu",
-    "dropout": 0.2
-  },
-  "hyperparameters": {
-    "learning_rate": 0.001,
-    "batch_size": 32,
-    "gamma": 0.99,
-    "epsilon_start": 1.0,
-    "epsilon_end": 0.01,
-    "epsilon_decay": 0.995,
-    "memory_size": 10000,
-    "target_update_frequency": 10
-  },
-  "reward": {
-    "survival": 1.0,
-    "obstacle_avoided": 2.0,
-    "coin_collected": 1.0,
-    "unnecessary_action": -0.5,
-    "termination": -10.0
-  }
-}
-```
-
 ## 🤝 Contributing
 
 Feel free to submit issues, fork the repository, and create pull requests for any improvements.
