@@ -15,8 +15,8 @@ from stable_baselines3.common.env_checker import check_env
 from stable_baselines3.common.callbacks import EvalCallback, StopTrainingOnRewardThreshold, BaseCallback
 from stable_baselines3.common.evaluation import evaluate_policy
 from stable_baselines3.common.monitor import Monitor
-from env import TempleRunEnv
-from agent import TempleRunAgent
+from temple_run.env import TempleRunEnv
+from temple_run.agent import TempleRunAgent
 from training.dataset_loader import load_templerun_dataset
 from training_time_tracker import TrainingTimeTracker, TrainingTimeCallback
 import glob
