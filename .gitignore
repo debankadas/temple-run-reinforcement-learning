@@ -1,0 +1,84 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Training outputs
+training_output/
+*.zip
+*.pth
+*.pkl
+*.pt
+
+# Model files
+templerun-classifier/
+*.safetensors
+*.bin
+
+# Logs and temporary files
+*.log
+training_time_log.json
+best_params.json
+templerun_tensorboard/
+runs/
+tensorboard_logs/
+
+# Data files
+*.npz
+*.npy
+
+# Screenshots and images (except data_collector)
+debug_frames/
+debug_images/
+screenshots/
+*.jpg
+*.jpeg
+
+
+
+# OS generated
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Temporary directories
+training_results/
+temp/
+tmp/

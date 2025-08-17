@@ -1,0 +1,97 @@
+# Temple Run AI Training Configuration
+# Edit this file to configure your training setup
+
+# ============================================
+# GPU CONFIGURATION PRESETS
+# ============================================
+# Uncomment ONE preset based on your GPU:
+
+# Budget GPU (GTX 1660, RTX 2060, 4-6GB VRAM)
+gpu_preset: "mid-range"  # Options: budget, mid-range, high-end, enthusiast
+
+gpu_presets:
+  budget:
+    resolution: 128
+    classifier_batch_size: 8
+    ppo_batch_size: 32
+    frame_skip: 2
+    use_fp16: false
+  
+  mid-range:
+    resolution: 256
+    classifier_batch_size: 16
+    ppo_batch_size: 64
+    frame_skip: 1
+    use_fp16: false
+  
+  high-end:
+    resolution: 384
+    classifier_batch_size: 32
+    ppo_batch_size: 128
+    frame_skip: 1
+    use_fp16: true
+  
+  enthusiast:
+    resolution: 512
+    classifier_batch_size: 64
+    ppo_batch_size: 256
+    frame_skip: 1
+    use_fp16: true
+
+# ============================================
+# HYPERPARAMETER STRATEGY
+# ============================================
+use_optimized_params: true  
+# true = load best_params.json, false = use manual values below
+
+# ============================================
+# TRAINING CONFIGURATION
+# ============================================
+training:
+  total_timesteps: 50000
+  checkpoint_interval: 100
+  eval_frequency: 2000
+
+# ============================================
+# PPO HYPERPARAMETERS (used when use_optimized_params = false)
+# ============================================
+ppo:
+  learning_rate: 0.0003
+  n_steps: 2048
+  gamma: 0.99
+  ent_coef: 0.01
+  clip_range: 0.2
+  vf_coef: 0.5
+  gae_lambda: 0.95
+  n_epochs: 10
+  max_grad_norm: 0.5
+
+# ============================================
+# CLASSIFIER HYPERPARAMETERS
+# ============================================
+classifier:
+  learning_rate: 0.00002
+  epochs: 10
+  warmup_steps: 100
+  weight_decay: 0.01
+
+# ============================================
+# ENVIRONMENT HYPERPARAMETERS
+# ============================================
+environment:
+  max_episode_steps: 1000
+  reward_scale: 1.0
+  action_repeat: 1
+
+# ============================================
+# DEVICE CONFIGURATION
+# ============================================
+device:
+  device_id: "default"  # ADB device ID or "default" for auto-detect
+  window_title: "BlueStacks"  # For window capture fallback
+
+# ============================================
+# DATA PATHS
+# ============================================
+paths:
+  dataset_path: "data_collector/templerun_dataset"
